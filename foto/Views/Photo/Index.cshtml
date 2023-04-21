@@ -4,16 +4,29 @@
 
     var Photo = Model;
 }
-<div class="d-flex">
+<div class="d-flex justify-content-center mb-3">
 
-@for(int i = 0; i < Photo.Length; i++)
-{
-    
-<div class="card" style="width: 18rem;">
-    <img src="@Photo[i].ImageUrl" class="card-img-top" alt="...">
-    <div class="card-body">
-    <a href="@Url.Action("Detail","Photo",new{Id = Photo[i].Id})" class="btn btn-primary">Dettagli</a>
-    </div>
+    @for (int i = 0; i < Photo.Length; i++)
+    {
+
+        <div class="card" style="width: 18rem;">
+            <img src="@Photo[i].ImageUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                    <a href="@Url.Action("Detail","Photo",new{Id = Photo[i].Id})" class="btn btn-primary">Dettagli</a>
+                
+
+                
+                    <a href="@Url.Action("Edit","Photo",new{Id = Photo[i].Id})" class="btn btn-warning">Modifica</a>
+                
+                <form asp-controller="Photo" asp-action="Delete" asp-route-id="@Photo[i].Id" method="post">
+                    @Html.AntiForgeryToken()
+                    <button class="btn btn-danger" type="submit">Cancella</button>
+                </form>
+            </div>
+        </div>
+    }
 </div>
-}
+<div class="d-flex justify-content-center">
+
+    <a href="@Url.Action("Create","Photo")" class="btn btn-success">inserisci una nuova foto</a>
 </div>
