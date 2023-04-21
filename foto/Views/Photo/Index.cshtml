@@ -1,5 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Le tue foto";
-}
+    ViewData["Title"] = "Area personale";
+    @model Photo[];
 
-<h1>ciao</h1>
+    var Photo = Model;
+}
+<div class="d-flex">
+
+@for(int i = 0; i < Photo.Length; i++)
+{
+    
+<div class="card" style="width: 18rem;">
+    <img src="@Photo[i].ImageUrl" class="card-img-top" alt="...">
+    <div class="card-body">
+    <a href="@Url.Action("Detail","Photo",new{Id = Photo[i].Id})" class="btn btn-primary">Dettagli</a>
+    </div>
+</div>
+}
+</div>
