@@ -1,3 +1,7 @@
+using foto.Models;
+using Microsoft.EntityFrameworkCore;
+using static System.Formats.Asn1.AsnWriter;
+
 namespace foto
 {
     public class Program
@@ -6,6 +10,7 @@ namespace foto
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<Models.PhotoContext>(options => options.UseSqlServer("Data Source=localhost;Initial Catalog=db_photo;Integrated Security=True;encrypt=false"));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -28,8 +33,12 @@ namespace foto
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-
+                pattern: "{controller=Photo}/{action=Index}/{id?}");
+            using (var scope = app.Services.CreateScope())
+            using (var ctx = scope.ServiceProvider.GetService<PhotoContext>())
+            {
+                ctx!.Seed();
+            }
             app.Run();
         }
     }
